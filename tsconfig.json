@@ -3,8 +3,11 @@
     "strict": true,
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
+    "module": "Preserve",
+    "target": "ES2017",
     "paths": {
       "@": ["./src"],
+      "~": ["./"],
       "public": ["./public"]
     }
   }

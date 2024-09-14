@@ -131,6 +131,11 @@ const DashboardPage = () => {
             </tbody>
           </table>
         </section>
+        <section
+          class={
+            'row-start-4 col-span-2 row-span-2 bg-white rounded-lg px-5 py-3 shadow'
+          }
+        ></section>
       </div>
     </div>
   );

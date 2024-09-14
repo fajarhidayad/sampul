@@ -4,7 +4,7 @@ import Header from '../components/header';
 const BaseLayout: FC<{ children: Child }> = ({ children }) => {
   return (
     <html lang="en" data-theme="light">
-      <Header title="Expense App" />
+      <Header title="Sampul" />
       <body class="bg-slate-100 container min-h-svh">{children}</body>
     </html>
   );

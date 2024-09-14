@@ -1,15 +1,13 @@
 import { Hono } from 'hono';
 import { logger } from 'hono/logger';
-import apiRoute from './routes/api.route';
-import pageRoute, { notFound } from './routes/index.route';
+import routes, { notFound } from './routes';
 
 const PORT = Bun.env.PORT;
 
 const app = new Hono();
 app.use(logger());
 
-app.route('/', pageRoute);
-app.route('/api', apiRoute);
+app.route('/', routes);
 app.notFound(notFound);
 
 export default {

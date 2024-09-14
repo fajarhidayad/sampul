@@ -4,8 +4,8 @@ import { jsxRenderer } from 'hono/jsx-renderer';
 import { BlankEnv } from 'hono/types';
 
 import BaseLayout from '../layouts/base-layout';
-import authRoute from './auth-page.route';
-import guestRoute from './guest-page.route';
+import authRoute from './auths';
+import guestRoute from './guests';
 
 import NotFoundPage from '../pages/not-found';
 
