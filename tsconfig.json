@@ -5,6 +5,7 @@
     "jsxImportSource": "hono/jsx",
     "module": "Preserve",
     "target": "ES2017",
+    "types": ["typed-htmx"],
     "paths": {
       "@": ["./src"],
       "~": ["./"],

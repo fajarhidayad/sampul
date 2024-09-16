@@ -3,12 +3,12 @@ import ButtonLink from '../components/button-link';
 
 const GuestLayout: FC<{ children: Child }> = ({ children }) => {
   return (
-    <div class={'flex flex-col min-h-screen'}>
+    <div class={'flex flex-col min-h-screen container'}>
       <nav class="flex items-center py-5 justify-between">
         <a hx-boost="true" href="/" class="font-bold text-primary text-2xl">
           Sampul
         </a>
-        <ButtonLink href="/sign-in">Masuk</ButtonLink>
+        <ButtonLink href="/account/login">Masuk</ButtonLink>
       </nav>
       <main class={'flex-1'}>{children}</main>
       <footer

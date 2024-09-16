@@ -1,11 +1,10 @@
-import { relations } from 'drizzle-orm';
+import { relations, sql } from 'drizzle-orm';
 import {
   bigint,
   date,
   decimal,
   mysqlEnum,
   mysqlTable,
-  serial,
   timestamp,
   varchar,
 } from 'drizzle-orm/mysql-core';
@@ -19,10 +18,10 @@ export const usersTable = mysqlTable('users', {
   firstName: varchar('first_name', { length: 100 }).notNull(),
   lastName: varchar('last_name', { length: 100 }).notNull(),
   email: varchar('email', { length: 256 }).unique().notNull(),
-  password: varchar('password', { length: 64 }).notNull(),
+  password: varchar('password', { length: 255 }).notNull(),
   createdAt: timestamp('created_at', { mode: 'string' }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { mode: 'string' }).$onUpdate(() =>
-    new Date().toDateString()
+  updatedAt: timestamp('updated_at', { mode: 'string' }).$onUpdate(
+    () => sql`now()`
   ),
 });
 
@@ -42,8 +41,8 @@ export const categoriesTable = mysqlTable('categories', {
     .references(() => usersTable.id, { onDelete: 'cascade' })
     .notNull(),
   createdAt: timestamp('created_at', { mode: 'string' }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { mode: 'string' }).$onUpdate(() =>
-    new Date().toDateString()
+  updatedAt: timestamp('updated_at', { mode: 'string' }).$onUpdate(
+    () => sql`now()`
   ),
 });
 
@@ -67,11 +66,12 @@ export const transactionsTable = mysqlTable('transactions', {
     .references(() => categoriesTable.id, { onDelete: 'cascade' })
     .notNull(),
   amount: decimal('amount').notNull(),
+  type: mysqlEnum('type', ['income', 'expense']).notNull(),
   date: date('date', { mode: 'date' }).notNull(),
   description: varchar('description', { length: 255 }),
   createdAt: timestamp('created_at', { mode: 'string' }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { mode: 'string' }).$onUpdate(() =>
-    new Date().toDateString()
+  updatedAt: timestamp('updated_at', { mode: 'string' }).$onUpdate(
+    () => sql`now()`
   ),
 });
 

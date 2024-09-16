@@ -1,12 +1,31 @@
 import { Child, FC } from 'hono/jsx';
+import HomeIcon from '../components/icons/home-icon';
+import WalletIcon from '../components/icons/wallet-icon';
+import HistoryIcon from '../components/icons/history-icon';
+import SettingsIcon from '../components/icons/settings-icon';
+import LogoutIcon from '../components/icons/logout-icon';
+import { twMerge } from 'tailwind-merge';
+import { html } from 'hono/html';
 
 interface AuthLayoutProps {
   children: Child;
+  path: string;
 }
 
 const AuthLayout: FC<AuthLayoutProps> = (props) => {
   return (
-    <div class={'flex flex-col h-screen'}>
+    <div class={'flex flex-col h-screen container'}>
+      {html`
+        <script>
+          document.body.addEventListener('htmx:beforeOnLoad', function (evt) {
+            if (evt.detail.xhr.getResponseHeader('X-Logout-Trigger')) {
+              window.history.replaceState(null, '', '/account/login');
+              window.location.href = '/account/login';
+              evt.preventDefault();
+            }
+          });
+        </script>
+      `}
       <nav class={'py-10 flex items-center'}>
         <a
           href="/dashboard"
@@ -26,28 +45,28 @@ const AuthLayout: FC<AuthLayoutProps> = (props) => {
       <main class="bg-slate-100 flex-1 flex pb-10">
         <aside class={'flex-shrink-0 mr-10 flex flex-col'}>
           <ul hx-boost="true" class={'flex flex-col bg-blue-400 rounded-full'}>
-            <SidebarItem href="" name="dashboard">
+            <SidebarItem path={props.path} href="" name="dashboard">
               <HomeIcon />
             </SidebarItem>
-            <SidebarItem href="/expense" name="expense">
+            <SidebarItem path={props.path} href="/expense" name="expense">
               <WalletIcon />
             </SidebarItem>
-            <SidebarItem href="/history" name="history">
+            <SidebarItem path={props.path} href="/history" name="history">
               <HistoryIcon />
             </SidebarItem>
-            <SidebarItem href="/settings" name="settings">
+            <SidebarItem path={props.path} href="/settings" name="settings">
               <SettingsIcon />
             </SidebarItem>
           </ul>
 
           <a
-            href="/"
-            hx-boost="true"
+            hx-post="/account/logout"
+            hx-push-url="true"
             class={
-              'bg-white border border-red-400 text-xs w-14 h-14 font-semibold text-red-400 flex items-center justify-center rounded-full mt-auto'
+              'bg-white border border-red-400 text-xs w-14 h-14 font-semibold text-red-400 flex items-center justify-center rounded-full mt-auto hover:cursor-pointer'
             }
           >
-            Exit
+            <LogoutIcon />
           </a>
         </aside>
         {props.children}
@@ -56,101 +75,27 @@ const AuthLayout: FC<AuthLayoutProps> = (props) => {
   );
 };
 
-const SidebarItem: FC<{ children: Child; href: string; name: string }> = (
-  props
-) => {
+interface SidebarItemProps {
+  children: Child;
+  href: string;
+  name: string;
+  path: string;
+}
+
+const SidebarItem: FC<SidebarItemProps> = (props) => {
+  const href = `/dashboard${props.href}`;
   return (
     <li class={'tooltip tooltip-right'} data-tip={props.name}>
       <a
-        class={
-          'w-14 h-14 rounded-full hover:bg-white/70 font-semibold text-white hover:text-primary flex items-center justify-center text-xs hover:cursor-pointer'
-        }
-        href={`/dashboard${props.href}`}
+        class={twMerge(
+          `w-14 h-14 rounded-full hover:bg-white/70 font-semibold text-white hover:text-primary flex items-center justify-center text-xs hover:cursor-pointer`,
+          props.path === href ? 'bg-white/70 text-primary' : ''
+        )}
+        href={href}
       >
         {props.children}
       </a>
     </li>
-  );
-};
-
-const HomeIcon = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="lucide lucide-house"
-    >
-      <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" />
-      <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-    </svg>
-  );
-};
-
-const WalletIcon = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="lucide lucide-wallet-minimal"
-    >
-      <path d="M17 14h.01" />
-      <path d="M7 7h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14" />
-    </svg>
-  );
-};
-
-const HistoryIcon = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="lucide lucide-history"
-    >
-      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-      <path d="M3 3v5h5" />
-      <path d="M12 7v5l4 2" />
-    </svg>
-  );
-};
-
-const SettingsIcon = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="lucide lucide-settings"
-    >
-      <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
-      <circle cx="12" cy="12" r="3" />
-    </svg>
   );
 };
 

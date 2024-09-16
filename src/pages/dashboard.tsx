@@ -1,4 +1,4 @@
-import { Child, FC } from 'hono/jsx';
+import PlusIcon from '../components/icons/plus-icon';
 
 const data = [
   {
@@ -16,6 +16,7 @@ const data = [
 ];
 
 const DashboardPage = () => {
+  const date = new Date().toDateString();
   return (
     <div class={'flex-1'}>
       <div className="flex items-center justify-between">
@@ -46,9 +47,7 @@ const DashboardPage = () => {
           class={'col-span-1 bg-white rounded-lg px-5 py-3 space-y-2 shadow'}
         >
           <h3 class={'font-medium text-slate-700'}>Tanggal</h3>
-          <h2 class={'font-semibold text-lg text-slate-800'}>
-            12 September 2024
-          </h2>
+          <h2 class={'font-semibold text-lg text-slate-800'}>{date}</h2>
         </section>
         <section
           class={
@@ -135,29 +134,34 @@ const DashboardPage = () => {
           class={
             'row-start-4 col-span-2 row-span-2 bg-white rounded-lg px-5 py-3 shadow'
           }
-        ></section>
+        >
+          <h3 class={'font-medium text-slate-700'}>Kategori</h3>
+          <div id="my-chart" class={'w-full max-w-[200px] mx-auto'}>
+            <table class="charts-css pie hide-data">
+              <caption> Pie Example #1 </caption>{' '}
+              <tbody>
+                <tr>
+                  <td style="--start: 0.0; --end: 0.40;">
+                    <span class="data"> $ 10K </span>
+                  </td>
+                </tr>{' '}
+                <tr>
+                  <td style="--start: 0.40; --end: 0.65;">
+                    <span class="data"> $ 5K </span>
+                  </td>
+                </tr>{' '}
+                <tr>
+                  <td style="--start: 0.65; --end: 1;">
+                    <span class="data"> $ 15K </span>
+                  </td>
+                </tr>{' '}
+              </tbody>
+            </table>
+          </div>
+        </section>
       </div>
     </div>
   );
 };
 
-const PlusIcon = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      class="lucide lucide-plus"
-    >
-      <path d="M5 12h14" />
-      <path d="M12 5v14" />
-    </svg>
-  );
-};
 export default DashboardPage;

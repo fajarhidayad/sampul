@@ -13,6 +13,10 @@ const connection = createConnection({
 });
 const db = drizzle(connection);
 
+if (!env.DB_MIGRATE) {
+  throw new Error('DB_MIGRATE must set to true');
+}
+
 try {
   await migrate(db, { migrationsFolder: config.out! });
   await connection.end();

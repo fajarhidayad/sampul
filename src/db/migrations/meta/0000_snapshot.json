@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "22c504c8-494c-49b3-963d-ca36f662bd6f",
+  "id": "ba003023-98b4-4ab9-bb15-299fb76ffebf",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "categories": {
@@ -115,6 +115,13 @@
           "notNull": true,
           "autoincrement": false
         },
+        "type": {
+          "name": "type",
+          "type": "enum('income','expense')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "date": {
           "name": "date",
           "type": "date",
@@ -224,7 +231,7 @@
         },
         "password": {
           "name": "password",
-          "type": "varchar(64)",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false

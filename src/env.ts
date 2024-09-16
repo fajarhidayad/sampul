@@ -11,6 +11,9 @@ const EnvSchema = z.object({
   DB_PASSWORD: z.string(),
   DB_NAME: z.string(),
   DB_PORT: z.coerce.number(),
+  DB_MIGRATE: stringBoolean,
+  JWT_SECRET: z.string(),
+  COOKIE_SECRET: z.string(),
 });
 
 export type EnvSchema = z.infer<typeof EnvSchema>;
