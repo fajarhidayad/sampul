@@ -1,4 +1,4 @@
-import PlusIcon from '../components/icons/plus-icon';
+import PlusIcon from '../../components/icons/plus-icon';
 
 const data = [
   {

@@ -1,11 +1,11 @@
-import { Child, FC } from 'hono/jsx';
-import HomeIcon from '../components/icons/home-icon';
-import WalletIcon from '../components/icons/wallet-icon';
-import HistoryIcon from '../components/icons/history-icon';
-import SettingsIcon from '../components/icons/settings-icon';
-import LogoutIcon from '../components/icons/logout-icon';
-import { twMerge } from 'tailwind-merge';
+import HistoryIcon from '@/components/icons/history-icon';
+import HomeIcon from '@/components/icons/home-icon';
+import LogoutIcon from '@/components/icons/logout-icon';
+import SettingsIcon from '@/components/icons/settings-icon';
+import WalletIcon from '@/components/icons/wallet-icon';
 import { html } from 'hono/html';
+import { Child, FC } from 'hono/jsx';
+import { twMerge } from 'tailwind-merge';
 
 interface AuthLayoutProps {
   children: Child;

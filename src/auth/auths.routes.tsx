@@ -1,11 +1,11 @@
 import { Hono } from 'hono';
 import { jsxRenderer } from 'hono/jsx-renderer';
 
-import AuthLayout from '../layouts/auth-layout';
-import ExpensePage from '../pages/expense';
-import DashboardPage from '../pages/dashboard';
-import HistoryPage from '../pages/history';
-import SettingsPage from '../pages/settings';
+import AuthLayout from './layouts/auth.layout';
+import ExpensePage from './pages/expense';
+import DashboardPage from './pages/dashboard';
+import HistoryPage from './pages/history';
+import SettingsPage from './pages/settings';
 import { getSignedCookie } from 'hono/cookie';
 import env from '../env';
 import { verify } from 'hono/jwt';
@@ -31,7 +31,10 @@ app.use('/*', async (c, next) => {
       return next();
     }
   }
-  return c.redirect('/account/login');
+  c.status(401);
+  c.header('HX-Redirect', '/account/login');
+  // return c.redirect('/account/login');
+  return c.text('');
 });
 
 app.get('/', (c) => {

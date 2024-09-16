@@ -8,9 +8,9 @@ import { z } from 'zod';
 import { db } from '../db';
 import { usersTable } from '../db/schema';
 import env from '../env';
-import AccountLayout from '../layouts/account-layout';
-import RegisterPage from '../pages/register';
-import SignInPage from '../pages/sign-in';
+import AccountLayout from './layouts/account.layout';
+import RegisterPage from './pages/register';
+import SignInPage from './pages/sign-in';
 import argon from 'argon2';
 
 const app = new Hono();
@@ -101,7 +101,7 @@ app.post(
     });
 
     c.header('HX-Replace-Url', '/dashboard');
-    c.header('HX-redirect', '/dashboard');
+    c.header('HX-Redirect', '/dashboard');
     return c.text('');
   }
 );

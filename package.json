@@ -4,7 +4,9 @@
     "dev": "concurrently \"bun run --hot src/index.ts\" \"bunx tailwindcss -i ./public/styles/tailwind.css -o ./public/styles/global.css --watch\"",
     "db:migrate": "cross-env DB_MIGRATE=true bun run ./src/db/migrate.ts",
     "db:generate": "drizzle-kit generate",
-    "db:drop": "drizzle-kit drop"
+    "db:drop": "drizzle-kit drop",
+    "tw:mini": "tailwindcss -i ./public/styles/global.css -o ./public/styles/styles.css --minify",
+    "start": "bun run src/index.ts"
   },
   "dependencies": {
     "@hono/zod-validator": "^0.2.2",

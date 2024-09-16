@@ -1,5 +1,5 @@
 import { FC } from 'hono/jsx';
-import ButtonLink from '../components/button-link';
+import ButtonLink from '../../components/button-link';
 
 const HomePage: FC = () => {
   return (

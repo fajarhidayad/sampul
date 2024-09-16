@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
     "strict": true,
     "jsx": "react-jsx",
     "jsxImportSource": "hono/jsx",
@@ -7,8 +8,8 @@
     "target": "ES2017",
     "types": ["typed-htmx"],
     "paths": {
-      "@": ["./src"],
-      "~": ["./"],
+      "@/*": ["./src/*"],
+      "~/*": ["./*"],
       "public": ["./public"]
     }
   }
