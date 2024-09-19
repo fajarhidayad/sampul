@@ -1,17 +1,14 @@
-import { drizzle } from 'drizzle-orm/mysql2';
-import { migrate } from 'drizzle-orm/mysql2/migrator';
-import { createConnection } from 'mysql2';
+import { drizzle } from 'drizzle-orm/libsql';
+import { migrate } from 'drizzle-orm/libsql/migrator';
 import env from '../env';
 import config from '../../drizzle.config.js';
+import { createClient } from '@libsql/client';
 
-const connection = createConnection({
-  host: env.DB_HOST,
-  database: env.DB_NAME,
-  user: env.DB_USER,
-  password: env.DB_PASSWORD,
-  port: env.DB_PORT,
+const client = createClient({
+  url: env.DB_URL,
+  authToken: env.DB_AUTH_TOKEN,
 });
-const db = drizzle(connection);
+const db = drizzle(client);
 
 if (!env.DB_MIGRATE) {
   throw new Error('DB_MIGRATE must set to true');
@@ -19,7 +16,7 @@ if (!env.DB_MIGRATE) {
 
 try {
   await migrate(db, { migrationsFolder: config.out! });
-  await connection.end();
+  client.close();
   console.log('Successfully migrate');
 } catch (error) {
   console.error(error);

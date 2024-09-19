@@ -23,7 +23,7 @@ const HomePage: FC = () => {
         >
           <ButtonLink href="/dashboard">Mulai</ButtonLink>
           <a
-            href="/about"
+            href="/bantuan"
             class={
               'border-2 border-primary rounded-md px-8 py-2 text-primary font-medium'
             }

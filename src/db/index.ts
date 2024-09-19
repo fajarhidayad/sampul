@@ -1,13 +1,7 @@
-import { drizzle } from 'drizzle-orm/mysql2';
-import { createPool } from 'mysql2';
+import { drizzle } from 'drizzle-orm/libsql';
+import { createClient } from '@libsql/client';
 import env from '../env';
 
-const connection = createPool({
-  host: env.DB_HOST,
-  user: env.DB_USER,
-  password: env.DB_PASSWORD,
-  port: env.DB_PORT,
-  database: env.DB_NAME,
-});
+const client = createClient({ url: env.DB_URL, authToken: env.DB_AUTH_TOKEN });
 
-export const db = drizzle(connection, { logger: true });
+export const db = drizzle(client, { logger: true });

@@ -6,11 +6,8 @@ const stringBoolean = z.coerce.string().transform((val) => {
 
 const EnvSchema = z.object({
   PORT: z.coerce.number(),
-  DB_HOST: z.string(),
-  DB_USER: z.string(),
-  DB_PASSWORD: z.string(),
-  DB_NAME: z.string(),
-  DB_PORT: z.coerce.number(),
+  DB_URL: z.string(),
+  DB_AUTH_TOKEN: z.string(),
   DB_MIGRATE: stringBoolean,
   JWT_SECRET: z.string(),
   COOKIE_SECRET: z.string(),

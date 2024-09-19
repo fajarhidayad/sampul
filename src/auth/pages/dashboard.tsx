@@ -1,3 +1,4 @@
+import { html } from 'hono/html';
 import PlusIcon from '../../components/icons/plus-icon';
 
 const data = [
@@ -36,7 +37,7 @@ const DashboardPage = () => {
         </dialog>
       </div>
 
-      <div class={'grid grid-cols-5 grid-rows-5 py-6 gap-5'}>
+      <div class={'grid grid-cols-5 grid-rows-2 py-6 gap-5'}>
         <section
           class={'col-span-1 bg-white rounded-lg px-5 py-3 space-y-2 shadow'}
         >
@@ -97,7 +98,7 @@ const DashboardPage = () => {
         </section>
         <section
           class={
-            'col-span-3 col-start-3 row-span-5 bg-white rounded-lg px-5 py-3 space-y-3 shadow'
+            'col-span-3 col-start-3 row-span-3 bg-white rounded-lg px-5 py-3 space-y-3 shadow'
           }
         >
           <h3 class={'font-medium text-slate-700'}>Transaksi hari ini</h3>
@@ -132,34 +133,77 @@ const DashboardPage = () => {
         </section>
         <section
           class={
-            'row-start-4 col-span-2 row-span-2 bg-white rounded-lg px-5 py-3 shadow'
+            'row-start-4 col-span-2 row-span-2 bg-white rounded-lg px-5 py-3 shadow flex flex-col'
           }
         >
           <h3 class={'font-medium text-slate-700'}>Kategori</h3>
-          <div id="my-chart" class={'w-full max-w-[200px] mx-auto'}>
-            <table class="charts-css pie hide-data">
-              <caption> Pie Example #1 </caption>{' '}
-              <tbody>
-                <tr>
-                  <td style="--start: 0.0; --end: 0.40;">
-                    <span class="data"> $ 10K </span>
-                  </td>
-                </tr>{' '}
-                <tr>
-                  <td style="--start: 0.40; --end: 0.65;">
-                    <span class="data"> $ 5K </span>
-                  </td>
-                </tr>{' '}
-                <tr>
-                  <td style="--start: 0.65; --end: 1;">
-                    <span class="data"> $ 15K </span>
-                  </td>
-                </tr>{' '}
-              </tbody>
-            </table>
+          <div class="max-h-[250px] mx-auto">
+            <canvas id="myChart"></canvas>
+          </div>
+          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        </section>
+        <section
+          class={
+            'row-start-4 col-span-3 row-span-2 bg-white rounded-lg px-5 py-3 shadow flex flex-col'
+          }
+        >
+          <h3 class={'font-medium text-slate-700'}>Pengeluaran & Pendapatan</h3>
+          <div>
+            <canvas id="barChart"></canvas>
           </div>
         </section>
       </div>
+
+      {html`
+        <script>
+          var pieChart = document.getElementById('myChart');
+          var barChart = document.getElementById('barChart');
+
+          var pieData = {
+            labels: ['Makanan', 'Pakaian', 'Entertainment', 'Kebutuhan'],
+            datasets: [
+              {
+                label: 'Persentase',
+                data: [0.3, 0.2, 0.1, 0.4],
+                backgroundColor: [
+                  'rgb(255, 99, 132)',
+                  'rgb(54, 162, 235)',
+                  'rgb(255, 205, 86)',
+                  'rgb(0, 165, 144)',
+                ],
+                hoverOffset: 4,
+              },
+            ],
+          };
+
+          new Chart(pieChart, {
+            type: 'pie',
+            data: pieData,
+          });
+
+          var barData = {
+            labels: ['Januari', 'Februari', 'Maret', 'April'],
+            datasets: [
+              {
+                label: '2024',
+                data: [0.3, 0.2, 0.1, 0.4],
+                backgroundColor: [
+                  'rgb(255, 99, 132)',
+                  'rgb(54, 162, 235)',
+                  'rgb(255, 205, 86)',
+                  'rgb(0, 165, 144)',
+                ],
+                hoverOffset: 4,
+              },
+            ],
+          };
+
+          new Chart(barChart, {
+            type: 'bar',
+            data: barData,
+          });
+        </script>
+      `}
     </div>
   );
 };

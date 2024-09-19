@@ -1,7 +1,7 @@
 {
-  "version": "5",
-  "dialect": "mysql",
-  "id": "ba003023-98b4-4ab9-bb15-299fb76ffebf",
+  "version": "6",
+  "dialect": "sqlite",
+  "id": "40ec1151-aa33-4f5b-b036-76ef4ab15f4b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "categories": {
@@ -9,49 +9,57 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigint",
-          "primaryKey": false,
+          "type": "integer",
+          "primaryKey": true,
           "notNull": true,
           "autoincrement": true
         },
         "name": {
           "name": "name",
-          "type": "varchar(255)",
+          "type": "text(255)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "type": {
           "name": "type",
-          "type": "enum('income','expense')",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "user_id": {
           "name": "user_id",
-          "type": "bigint",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "created_at": {
           "name": "created_at",
-          "type": "timestamp",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "(now())"
+          "default": "CURRENT_TIMESTAMP"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "timestamp",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "categories_id_unique": {
+          "name": "categories_id_unique",
+          "columns": [
+            "id"
+          ],
+          "isUnique": true
+        }
+      },
       "foreignKeys": {
         "categories_user_id_users_id_fk": {
           "name": "categories_user_id_users_id_fk",
@@ -67,92 +75,86 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "categories_id": {
-          "name": "categories_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
-      "uniqueConstraints": {
-        "categories_id_unique": {
-          "name": "categories_id_unique",
-          "columns": [
-            "id"
-          ]
-        }
-      }
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
     },
     "transactions": {
       "name": "transactions",
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigint",
-          "primaryKey": false,
+          "type": "integer",
+          "primaryKey": true,
           "notNull": true,
           "autoincrement": true
         },
         "user_id": {
           "name": "user_id",
-          "type": "bigint",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "category_id": {
           "name": "category_id",
-          "type": "bigint",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "amount": {
           "name": "amount",
-          "type": "decimal",
+          "type": "real",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "type": {
           "name": "type",
-          "type": "enum('income','expense')",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "date": {
           "name": "date",
-          "type": "date",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "description": {
           "name": "description",
-          "type": "varchar(255)",
+          "type": "text(255)",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
         "created_at": {
           "name": "created_at",
-          "type": "timestamp",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "(now())"
+          "default": "CURRENT_TIMESTAMP"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "timestamp",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "transactions_id_unique": {
+          "name": "transactions_id_unique",
+          "columns": [
+            "id"
+          ],
+          "isUnique": true
+        }
+      },
       "foreignKeys": {
         "transactions_user_id_users_id_fk": {
           "name": "transactions_user_id_users_id_fk",
@@ -181,110 +183,91 @@
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "transactions_id": {
-          "name": "transactions_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
-      "uniqueConstraints": {
-        "transactions_id_unique": {
-          "name": "transactions_id_unique",
-          "columns": [
-            "id"
-          ]
-        }
-      }
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
     },
     "users": {
       "name": "users",
       "columns": {
         "id": {
           "name": "id",
-          "type": "bigint",
-          "primaryKey": false,
+          "type": "integer",
+          "primaryKey": true,
           "notNull": true,
           "autoincrement": true
         },
         "first_name": {
           "name": "first_name",
-          "type": "varchar(100)",
+          "type": "text(100)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "last_name": {
           "name": "last_name",
-          "type": "varchar(100)",
+          "type": "text(100)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "email": {
           "name": "email",
-          "type": "varchar(256)",
+          "type": "text(256)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "password": {
           "name": "password",
-          "type": "varchar(255)",
+          "type": "text(255)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "created_at": {
           "name": "created_at",
-          "type": "timestamp",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "(now())"
+          "default": "CURRENT_TIMESTAMP"
         },
         "updated_at": {
           "name": "updated_at",
-          "type": "timestamp",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "users_id": {
-          "name": "users_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
-      "uniqueConstraints": {
+      "indexes": {
         "users_id_unique": {
           "name": "users_id_unique",
           "columns": [
             "id"
-          ]
+          ],
+          "isUnique": true
         },
         "users_email_unique": {
           "name": "users_email_unique",
           "columns": [
             "email"
-          ]
+          ],
+          "isUnique": true
         }
-      }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
     }
   },
+  "enums": {},
   "_meta": {
     "schemas": {},
     "tables": {},
     "columns": {}
   },
   "internal": {
-    "tables": {},
     "indexes": {}
   }
 }

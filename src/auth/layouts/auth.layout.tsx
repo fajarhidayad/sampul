@@ -10,6 +10,7 @@ import { twMerge } from 'tailwind-merge';
 interface AuthLayoutProps {
   children: Child;
   path: string;
+  fullName: string;
 }
 
 const AuthLayout: FC<AuthLayoutProps> = (props) => {
@@ -36,7 +37,7 @@ const AuthLayout: FC<AuthLayoutProps> = (props) => {
         </a>
         <input class={'rounded-full px-5 py-2'} placeholder="Search" />
         <div class={'flex items-center ml-auto space-x-3'}>
-          <p class={'font-semibold text-lg'}>User</p>
+          <p class={'font-semibold text-lg'}>{props.fullName}</p>
           <button class={'w-10 h-10 bg-accent rounded-full text-white'}>
             U
           </button>

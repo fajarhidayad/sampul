@@ -6,7 +6,7 @@ import { jsxRenderer } from 'hono/jsx-renderer';
 import { sign, verify } from 'hono/jwt';
 import { z } from 'zod';
 import { db } from '../db';
-import { usersTable } from '../db/schema';
+import { users } from '../db/schema/users';
 import env from '../env';
 import AccountLayout from './layouts/account.layout';
 import RegisterPage from './pages/register';
@@ -28,14 +28,16 @@ app.use(
 app.use('/*', async (c, next) => {
   const token = await getSignedCookie(c, env.COOKIE_SECRET, 'token');
   if (token) {
-    const verifyToken = await verify(token, env.JWT_SECRET);
-    if (verifyToken) {
+    try {
+      await verify(token, env.JWT_SECRET);
       if (
         c.req.path === '/account/register' ||
         c.req.path === '/account/login'
       ) {
+        c.header('HX-Redirect', '/dashboard');
         return c.redirect('/dashboard');
       }
+    } catch (error) {
       return next();
     }
   }
@@ -57,7 +59,6 @@ app.post(
   zValidator('form', loginSchema, (result, c) => {
     if (!result.success) {
       c.status(400);
-      // c.header('HX-Reswap', 'outerHTML');
       return c.html(
         <SignInPage
           form={result.data}
@@ -70,8 +71,8 @@ app.post(
     const formData = c.req.valid('form');
     const user = await db
       .select()
-      .from(usersTable)
-      .where(eq(usersTable.email, formData.email))
+      .from(users)
+      .where(eq(users.email, formData.email))
       .limit(1);
 
     if (user.length < 1) {
@@ -90,6 +91,7 @@ app.post(
 
     const payload = {
       sub: user[0].email,
+      name: user[0].firstName + ' ' + user[0].lastName,
       exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24,
     };
     const token = await sign(payload, env.JWT_SECRET);
@@ -100,9 +102,10 @@ app.post(
       maxAge: 60 * 60 * 24 * 7,
     });
 
-    c.header('HX-Replace-Url', '/dashboard');
-    c.header('HX-Redirect', '/dashboard');
-    return c.text('');
+    return c.text('', 200, {
+      'HX-Replace-Url': '/dashboard',
+      'HX-Redirect': '/dashboard',
+    });
   }
 );
 
@@ -135,8 +138,8 @@ app.post(
     const formData = c.req.valid('form');
     const user = await db
       .select()
-      .from(usersTable)
-      .where(eq(usersTable.email, formData.email))
+      .from(users)
+      .where(eq(users.email, formData.email))
       .limit(1);
 
     if (user.length > 0) {
@@ -148,7 +151,7 @@ app.post(
 
     const hash = await argon.hash(formData.password);
 
-    await db.insert(usersTable).values({
+    await db.insert(users).values({
       email: formData.email,
       firstName: formData.firstname,
       lastName: formData.lastname,
@@ -157,6 +160,7 @@ app.post(
 
     const payload = {
       sub: formData.email,
+      name: formData.firstname + ' ' + formData.lastname,
       exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24,
     };
     const token = await sign(payload, env.JWT_SECRET);
@@ -167,9 +171,10 @@ app.post(
       maxAge: 60 * 60 * 24 * 7,
     });
 
-    c.header('HX-Push-Url', '/dashboard');
-    c.header('HX-Redirect', '/dashboard');
-    return c.text('');
+    return c.text('', 201, {
+      'HX-Push-Url': '/dashboard',
+      'HX-Redirect': '/dashboard',
+    });
   }
 );
 
@@ -177,9 +182,10 @@ app.post('/logout', async (c) => {
   await setSignedCookie(c, 'token', '', env.COOKIE_SECRET, {
     secure: true,
   });
-  c.header('X-Logout-Trigger', 'true');
-  c.header('HX-Redirect', '/');
-  return c.text('');
+  return c.text('', 200, {
+    'X-Logout-Trigger': 'true',
+    'HX-Redirect': '/',
+  });
 });
 
 export default app;
