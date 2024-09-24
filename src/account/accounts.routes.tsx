@@ -13,6 +13,10 @@ import RegisterPage from './pages/register';
 import SignInPage from './pages/sign-in';
 import argon from 'argon2';
 
+const WEEK_IN_SECONDS = 60 * 60 * 24 * 7;
+const DAY_IN_SECONDS = 60 * 60 * 24;
+60 * 60 * 24;
+
 const app = new Hono();
 
 app.use(
@@ -92,14 +96,14 @@ app.post(
     const payload = {
       sub: user[0].email,
       name: user[0].firstName + ' ' + user[0].lastName,
-      exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24,
+      exp: Math.floor(Date.now() / 1000) + DAY_IN_SECONDS,
     };
     const token = await sign(payload, env.JWT_SECRET);
 
     await setSignedCookie(c, 'token', token, env.COOKIE_SECRET, {
       secure: true,
       httpOnly: true,
-      maxAge: 60 * 60 * 24 * 7,
+      maxAge: WEEK_IN_SECONDS,
     });
 
     return c.text('', 200, {
@@ -161,14 +165,14 @@ app.post(
     const payload = {
       sub: formData.email,
       name: formData.firstname + ' ' + formData.lastname,
-      exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24,
+      exp: Math.floor(Date.now() / 1000) + DAY_IN_SECONDS,
     };
     const token = await sign(payload, env.JWT_SECRET);
 
     await setSignedCookie(c, 'token', token, env.COOKIE_SECRET, {
       secure: true,
       httpOnly: true,
-      maxAge: 60 * 60 * 24 * 7,
+      maxAge: WEEK_IN_SECONDS,
     });
 
     return c.text('', 201, {

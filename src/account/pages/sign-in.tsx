@@ -1,3 +1,4 @@
+import Spinner from '@/components/spinner';
 import { FC } from 'hono/jsx';
 
 interface Props {
@@ -30,6 +31,7 @@ const SignInPage: FC<Props> = (props) => {
         hx-post="/account/login"
         hx-target="#form"
         hx-swap="outerHTML"
+        hx-indicator="#spinner"
         hx-target-400="#form"
         class={'flex flex-col space-y-3 mb-8'}
       >
@@ -91,6 +93,7 @@ const SignInPage: FC<Props> = (props) => {
         )}
         <button type="submit" class={'btn btn-primary'}>
           Masuk
+          <Spinner id="spinner" />
         </button>
       </form>
 

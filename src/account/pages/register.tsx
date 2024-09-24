@@ -1,3 +1,4 @@
+import Spinner from '@/components/spinner';
 import { FC } from 'hono/jsx';
 
 interface RegisterProps {
@@ -34,6 +35,7 @@ const RegisterPage: FC<RegisterProps> = (props) => {
         hx-target="#form"
         hx-target-400="#form"
         hx-swap="outerHTML"
+        hx-indicator="#spinner"
         class={'flex flex-col space-y-4 mb-8'}
         method="post"
       >
@@ -131,6 +133,7 @@ const RegisterPage: FC<RegisterProps> = (props) => {
         )}
         <button type="submit" class={'btn btn-primary'}>
           Buat Akun
+          <Spinner id="spinner" />
         </button>
       </form>
 

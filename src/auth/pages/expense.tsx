@@ -1,3 +1,27 @@
+import EditIcon from '@/components/icons/edit-icon';
+import TrashIcon from '@/components/icons/trash-icon';
+
+const data = [
+  {
+    type: 'income',
+    category: 'Gaji',
+    description: 'Bulanan',
+    amount: 6000000,
+  },
+  {
+    type: 'expense',
+    category: 'Makanan',
+    description: 'Pagi',
+    amount: 15000,
+  },
+  {
+    type: 'expense',
+    category: 'Laundry',
+    description: '',
+    amount: 25000,
+  },
+];
+
 const ExpensePage = () => {
   return (
     <div class={'w-full'}>
@@ -15,36 +39,45 @@ const ExpensePage = () => {
                 <th>No</th>
                 <th>Jenis</th>
                 <th>Kategori</th>
+                <th>Jumlah</th>
                 <th>Deskripsi</th>
                 <th>Aksi</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="hover">
-                <th>1</th>
-                <td>Cy Ganderton</td>
-                <td>Quality Control Specialist</td>
-                <td>Blue</td>
-                <td>
-                  <button class={'btn btn-sm btn-error text-white'}>
-                    Hapus
-                  </button>
-                </td>
-              </tr>
-              <tr class="hover">
-                <th>2</th>
-                <td>Hart Hagerty</td>
-                <td>Desktop Support Technician</td>
-                <td>Purple</td>
-                <td></td>
-              </tr>
-              <tr class="hover">
-                <th>3</th>
-                <td>Brice Swyre</td>
-                <td>Tax Accountant</td>
-                <td>Red</td>
-                <td></td>
-              </tr>
+              {data.map((item, index) => (
+                <tr class="hover">
+                  <th>{index + 1}</th>
+                  <td
+                    class={
+                      item.type === 'income' ? 'text-green-500' : 'text-red-500'
+                    }
+                  >
+                    {item.type}
+                  </td>
+                  <td>{item.category}</td>
+                  <td
+                    class={
+                      item.type === 'income' ? 'text-green-500' : 'text-red-500'
+                    }
+                  >
+                    {item.amount}
+                  </td>
+                  <td>{item.description}</td>
+                  <td class={'flex space-x-2'}>
+                    <button class={'btn btn-sm btn-warning text-white'}>
+                      <EditIcon />
+                    </button>
+                    <button
+                      hx-confirm="Apakah anda yakin ingin menghapus?"
+                      hx-delete="/"
+                      class={'btn btn-sm btn-error text-white'}
+                    >
+                      <TrashIcon />
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

@@ -14,6 +14,8 @@ interface AuthLayoutProps {
 }
 
 const AuthLayout: FC<AuthLayoutProps> = (props) => {
+  const name = props.fullName.split(' ');
+  const initial = name[0][0] + name[1][0];
   return (
     <div class={'flex flex-col h-screen container'}>
       {html`
@@ -38,9 +40,11 @@ const AuthLayout: FC<AuthLayoutProps> = (props) => {
         <input class={'rounded-full px-5 py-2'} placeholder="Search" />
         <div class={'flex items-center ml-auto space-x-3'}>
           <p class={'font-semibold text-lg'}>{props.fullName}</p>
-          <button class={'w-10 h-10 bg-accent rounded-full text-white'}>
-            U
-          </button>
+          <div className="avatar placeholder">
+            <div className="bg-success text-white w-12 rounded-full">
+              <span>{initial}</span>
+            </div>
+          </div>
         </div>
       </nav>
       <main class="bg-slate-100 flex-1 flex pb-10">
