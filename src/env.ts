@@ -5,6 +5,7 @@ const stringBoolean = z.coerce.string().transform((val) => {
 });
 
 const EnvSchema = z.object({
+  ENV_MODE: z.string(),
   PORT: z.coerce.number(),
   DB_URL: z.string(),
   DB_AUTH_TOKEN: z.string(),

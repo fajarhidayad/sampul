@@ -1,5 +1,7 @@
 import EditIcon from '@/components/icons/edit-icon';
+import PlusIcon from '@/components/icons/plus-icon';
 import TrashIcon from '@/components/icons/trash-icon';
+import TransactionBadge from '../components/transaction-badge';
 
 const data = [
   {
@@ -25,14 +27,17 @@ const data = [
 const ExpensePage = () => {
   return (
     <div class={'w-full'}>
-      <h1 class={'text-2xl font-semibold text-slate-800 mb-5'}>
-        Semua Transaksi
-      </h1>
+      <section class={'flex justify-between mb-5 items-center'}>
+        <h1 class={'text-2xl font-semibold text-slate-800'}>Semua Transaksi</h1>
+        <button class={'btn btn-primary'} onclick="add_transaction.showModal()">
+          <PlusIcon /> Tambah
+        </button>
+      </section>
       <section
         class={'bg-white rounded-xl p-5 w-full shadow'}
         style="min-height: calc(100vh - 25%)"
       >
-        <div class="overflow-x-auto">
+        <div class="overflow-auto">
           <table class="table">
             <thead>
               <tr>
@@ -48,12 +53,8 @@ const ExpensePage = () => {
               {data.map((item, index) => (
                 <tr class="hover">
                   <th>{index + 1}</th>
-                  <td
-                    class={
-                      item.type === 'income' ? 'text-green-500' : 'text-red-500'
-                    }
-                  >
-                    {item.type}
+                  <td>
+                    <TransactionBadge type={item.type} />
                   </td>
                   <td>{item.category}</td>
                   <td

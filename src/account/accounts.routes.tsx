@@ -94,7 +94,7 @@ app.post(
     }
 
     const payload = {
-      sub: user[0].email,
+      sub: user[0].id,
       name: user[0].firstName + ' ' + user[0].lastName,
       exp: Math.floor(Date.now() / 1000) + DAY_IN_SECONDS,
     };
@@ -155,15 +155,18 @@ app.post(
 
     const hash = await argon.hash(formData.password);
 
-    await db.insert(users).values({
-      email: formData.email,
-      firstName: formData.firstname,
-      lastName: formData.lastname,
-      password: hash,
-    });
+    const newUser = await db
+      .insert(users)
+      .values({
+        email: formData.email,
+        firstName: formData.firstname,
+        lastName: formData.lastname,
+        password: hash,
+      })
+      .returning();
 
     const payload = {
-      sub: formData.email,
+      sub: newUser[0].id,
       name: formData.firstname + ' ' + formData.lastname,
       exp: Math.floor(Date.now() / 1000) + DAY_IN_SECONDS,
     };

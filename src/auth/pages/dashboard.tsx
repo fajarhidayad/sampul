@@ -1,40 +1,20 @@
+import { transactions } from '@/db/schema/transactions';
 import { html } from 'hono/html';
-import PlusIcon from '../../components/icons/plus-icon';
+import { FC } from 'hono/jsx';
+import TransactionBadge from '../components/transaction-badge';
 
-const data = [
-  {
-    type: 'masuk',
-    amount: '1,000,000',
-    category: 'Freelance',
-    description: '',
-  },
-  {
-    type: 'keluar',
-    amount: '34,000',
-    category: 'Laundry',
-    description: '',
-  },
-];
+type Transactions = typeof transactions.$inferSelect;
 
-const DashboardPage = () => {
+interface DashboardProps {
+  transactions: Transactions[];
+}
+
+const DashboardPage: FC<DashboardProps> = (props) => {
   const date = new Date().toDateString();
   return (
     <div class={'flex-1'}>
       <div className="flex items-center justify-between">
         <h1 class={'text-3xl font-semibold'}>Dashboard</h1>
-        <button class={'btn btn-primary'} onclick="add_transaction.showModal()">
-          <PlusIcon /> Tambah
-        </button>
-        <dialog id="add_transaction" class="modal">
-          <div class="modal-box">
-            <form method="dialog">
-              <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                ✕
-              </button>
-            </form>
-            <h3 class="text-lg font-bold">Transaksi baru</h3>
-          </div>
-        </dialog>
       </div>
 
       <div class={'grid grid-cols-5 grid-rows-2 py-6 gap-5'}>
@@ -102,41 +82,41 @@ const DashboardPage = () => {
           }
         >
           <h3 class={'font-medium text-slate-700'}>Transaksi hari ini</h3>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Jenis</th>
-                <th>Jumlah</th>
-                <th>Kategori</th>
-                <th>Deskripsi</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((item) => (
-                <tr class="hover">
-                  <td
-                    class={
-                      item.type === 'masuk'
-                        ? 'text-emerald-500'
-                        : 'text-red-500'
-                    }
-                  >
-                    {item.type}
-                  </td>
-                  <td class={'font-medium'}>Rp {item.amount}</td>
-                  <td>{item.category}</td>
-                  <td>{item.description}</td>
+          {props.transactions.length > 0 ? (
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Jenis</th>
+                  <th>Jumlah</th>
+                  <th>Kategori</th>
+                  <th>Deskripsi</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {props.transactions.map((item) => (
+                  <tr class="hover">
+                    <td>
+                      <TransactionBadge type={item.type} />
+                    </td>
+                    <td class={'font-medium'}>Rp {item.amount}</td>
+                    <td>{item.categoryId}</td>
+                    <td>{item.description}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p class={'text-slate-500 font-medium text-center'}>
+              Belum ada transaksi hari ini
+            </p>
+          )}
         </section>
         <section
           class={
             'row-start-4 col-span-2 row-span-2 bg-white rounded-lg px-5 py-3 shadow flex flex-col'
           }
         >
-          <h3 class={'font-medium text-slate-700'}>Kategori</h3>
+          <h3 class={'font-medium text-slate-700'}>Berdasarkan Kategori</h3>
           <div class="max-h-[250px] mx-auto">
             <canvas id="myChart"></canvas>
           </div>

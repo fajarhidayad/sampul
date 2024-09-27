@@ -1,5 +1,6 @@
+import ErrorLabel from '@/components/error-label';
 import Spinner from '@/components/spinner';
-import { Child, FC } from 'hono/jsx';
+import { FC } from 'hono/jsx';
 
 interface ProfileFormProps {
   errorMessage?: string;
@@ -77,16 +78,6 @@ const ProfileForm: FC<ProfileFormProps> = (props) => {
         Update <Spinner id="spinner-profile" />
       </button>
     </form>
-  );
-};
-
-const ErrorLabel = (props: { children?: Child }) => {
-  if (!props.children) return null;
-
-  return (
-    <div class="label">
-      <span class="label-text-alt text-red-500">{props.children}</span>
-    </div>
   );
 };
 

@@ -1,3 +1,4 @@
+import CategoryIcon from '@/components/icons/category-icon';
 import HistoryIcon from '@/components/icons/history-icon';
 import HomeIcon from '@/components/icons/home-icon';
 import LogoutIcon from '@/components/icons/logout-icon';
@@ -53,13 +54,16 @@ const AuthLayout: FC<AuthLayoutProps> = (props) => {
             <SidebarItem path={props.path} href="" name="dashboard">
               <HomeIcon />
             </SidebarItem>
-            <SidebarItem path={props.path} href="/expense" name="expense">
+            <SidebarItem path={props.path} href="/expense" name="Transaksi">
               <WalletIcon />
+            </SidebarItem>
+            <SidebarItem path={props.path} href="/categories" name="Kategori">
+              <CategoryIcon />
             </SidebarItem>
             <SidebarItem path={props.path} href="/history" name="history">
               <HistoryIcon />
             </SidebarItem>
-            <SidebarItem path={props.path} href="/settings" name="settings">
+            <SidebarItem path={props.path} href="/settings" name="Pengaturan">
               <SettingsIcon />
             </SidebarItem>
           </ul>
